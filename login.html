@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | BioChar-Guard Telemetry Portal</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .glass-card {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen flex flex-col justify-between">
+
+  <!-- NAVIGATION HEADER LINKING BACK TO LANDING PAGE -->
+  <header class="p-6">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <a href="index.html" class="flex items-center gap-2 text-white hover:text-emerald-400 transition-colors">
+        <div class="bg-emerald-500 p-2 rounded-lg text-slate-900 font-bold">
+          <i data-lucide="sprout" class="w-5 h-5"></i>
+        </div>
+        <span class="text-xl font-extrabold tracking-tight">BioChar-<span class="text-emerald-400">Guard</span></span>
+      </a>
+      <a href="index.html" class="text-slate-400 hover:text-white text-sm font-medium flex items-center gap-1">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Home
+      </a>
+    </div>
+  </header>
+
+  <!-- LOGIN CARD CONTAINER -->
+  <main class="flex-grow flex items-center justify-center p-6">
+    <div class="w-full max-w-md glass-card p-8 rounded-3xl shadow-2xl relative border border-slate-800">
+      <div class="text-center mb-8">
+        <div class="bg-emerald-500/10 text-emerald-400 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-emerald-500/20">
+          <i data-lucide="lock" class="w-6 h-6"></i>
+        </div>
+        <h1 class="text-2xl font-bold">Portal Access</h1>
+        <p class="text-slate-400 text-sm mt-1">Enter researcher credentials to view live field data.</p>
+      </div>
+
+      <!-- ERROR ALERT (HIDDEN BY DEFAULT) -->
+      <div id="error-alert" class="hidden mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-center gap-3">
+        <i data-lucide="alert-circle" class="w-5 h-5 flex-shrink-0"></i>
+        <span>Invalid credentials. Use <strong>admin</strong> / <strong>biochar2026</strong></span>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <form id="login-form" class="space-y-5">
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Username</label>
+          <div class="relative">
+            <i data-lucide="user" class="w-5 h-5 absolute left-3.5 top-3.5 text-slate-500"></i>
+            <input type="text" id="username" required placeholder="Enter 'admin'" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 pl-11 text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 transition-colors">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Password</label>
+          <div class="relative">
+            <i data-lucide="key" class="w-5 h-5 absolute left-3.5 top-3.5 text-slate-500"></i>
+            <input type="password" id="password" required placeholder="Enter 'biochar2026'" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 pl-11 text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 transition-colors">
+          </div>
+        </div>
+
+        <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2">
+          Authorize & Open Dashboard <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </form>
+
+      <div class="mt-6 pt-6 border-t border-slate-800 text-center text-xs text-slate-500">
+        Demo Account: <span class="text-slate-300 font-mono">admin</span> | <span class="text-slate-300 font-mono">biochar2026</span>
+      </div>
+    </div>
+  </main>
+
+  <footer class="p-6 text-center text-slate-600 text-xs">
+    © 2026 BioChar-Guard System
+  </footer>
+
+  <!-- AUTHENTICATION & REDIRECT SCRIPT -->
+  <script>
+    lucide.createIcons();
+
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+
+      // VALIDATE CREDENTIALS
+      if (user === 'admin' && pass === 'biochar2026') {
+        // STORE AUTHENTICATION TOKEN IN BROWSER
+        localStorage.setItem('biochar_auth', 'true');
+        // REDIRECT TO DASHBOARD
+        window.location.href = 'dashboard.html';
+      } else {
+        document.getElementById('error-alert').classList.remove('hidden');
+      }
+    });
+  </script>
+</body>
+</html>

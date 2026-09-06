@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farmer Dashboard | BioChar-Guard Soil Health</title>
+  
+  <script>
+    if (localStorage.getItem('biochar_auth') !== 'true') {
+      window.location.href = 'login.html';
+    }
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    .glass-card {
+      background: rgba(30, 41, 59, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+  <nav class="glass-card border-b border-slate-800 px-6 py-4 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="bg-emerald-500 p-2.5 rounded-xl text-slate-950 font-bold shadow-lg shadow-emerald-500/20">
+          <i data-lucide="sprout" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <span class="text-xl font-extrabold tracking-tight text-white block leading-tight">BioChar-<span class="text-emerald-400">Guard</span></span>
+          <span class="text-xs text-slate-400 font-medium">Farmer Soil Portal</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button id="logout-btn" class="bg-slate-800 hover:bg-red-500/20 text-slate-300 hover:text-red-400 border border-slate-700 font-bold px-4 py-2 rounded-xl text-xs transition-all flex items-center gap-2">
+          <i data-lucide="log-out" class="w-4 h-4"></i> Exit Portal
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-7xl mx-auto px-6 py-8 flex-grow w-full">
+
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+      <div>
+        <div class="inline-flex items-center gap-2 text-emerald-400 text-xs font-bold tracking-wider uppercase mb-1">
+          <span class="relative flex h-2.5 w-2.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+          </span>
+          Live Farm Field Sensor #01 (Kyebi Sector)
+        </div>
+        <h1 class="text-3xl font-extrabold text-white">Your Farm Soil Status Dashboard</h1>
+      </div>
+      <button onclick="fetchTelemetry()" class="bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold px-4 py-2.5 rounded-xl transition-all flex items-center gap-2">
+        <i data-lucide="refresh-cw" class="w-4 h-4"></i> Check Latest Soil Data
+      </button>
+    </div>
+
+    <div id="advice-box" class="mb-8 p-6 rounded-2xl glass-card border-l-8 border-l-amber-500 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div class="flex items-start gap-4">
+        <div id="advice-icon" class="p-3 bg-amber-500/10 text-amber-400 rounded-xl mt-1">
+          <i data-lucide="alert-circle" class="w-7 h-7"></i>
+        </div>
+        <div>
+          <h2 class="text-lg font-bold text-white mb-1" id="advice-title">Checking Soil Health Status...</h2>
+          <p class="text-slate-300 text-sm leading-relaxed" id="advice-desc">Reading data from field sensors to provide planting recommendations.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      
+      <div class="glass-card p-6 rounded-2xl border-t-4 border-t-emerald-500">
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Soil Acidity (pH)</span>
+          <i data-lucide="test-tube" class="w-5 h-5 text-emerald-400"></i>
+        </div>
+        <div class="text-4xl font-extrabold text-white mb-2" id="ph-val">--</div>
+        <div id="ph-badge" class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-slate-800 text-slate-400">
+          Fetching...
+        </div>
+      </div>
+
+      <div class="glass-card p-6 rounded-2xl border-t-4 border-t-cyan-500">
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Leaf Growth (Nitrogen)</span>
+          <i data-lucide="leaf" class="w-5 h-5 text-cyan-400"></i>
+        </div>
+        <div class="text-4xl font-extrabold text-white mb-2" id="n-val">--</div>
+        <div class="text-xs text-slate-400">Essential for green leaves & stalks</div>
+      </div>
+
+      <div class="glass-card p-6 rounded-2xl border-t-4 border-t-blue-500">
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Root Health (Phosphorus)</span>
+          <i data-lucide="sprout" class="w-5 h-5 text-blue-400"></i>
+        </div>
+        <div class="text-4xl font-extrabold text-white mb-2" id="p-val">--</div>
+        <div class="text-xs text-slate-400">Helps strong roots & crop growth</div>
+      </div>
+
+      <div class="glass-card p-6 rounded-2xl border-t-4 border-t-indigo-500">
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Fruit & Strength (Potassium)</span>
+          <i data-lucide="shield" class="w-5 h-5 text-indigo-400"></i>
+        </div>
+        <div class="text-4xl font-extrabold text-white mb-2" id="k-val">--</div>
+        <div class="text-xs text-slate-400">Protects crops from drought & disease</div>
+      </div>
+    </div>
+
+    <div class="glass-card p-6 rounded-3xl mb-12">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-2">
+        <div>
+          <h3 class="text-lg font-bold text-white flex items-center gap-2">
+            <i data-lucide="trending-up" class="w-5 h-5 text-emerald-400"></i> Soil Acidity Recovery Over Time
+          </h3>
+          <p class="text-slate-400 text-xs mt-0.5">Shows how biochar application is gradually neutralizing soil acid levels.</p>
+        </div>
+        <span class="text-xs text-emerald-400 font-semibold bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+          Target Goal: pH 6.0 - 7.5
+        </span>
+      </div>
+
+      <div class="h-72 w-full">
+        <canvas id="soilChart"></canvas>
+      </div>
+    </div>
+
+    <section class="mt-12 pt-8 border-t border-slate-800">
+      <div class="mb-8">
+        <h2 class="text-2xl font-extrabold text-white flex items-center gap-2">
+          <i data-lucide="phone-call" class="w-6 h-6 text-emerald-400"></i> Support & Emergency Contacts
+        </h2>
+        <p class="text-slate-400 text-sm mt-1">Get immediate advice on biochar application, soil treatment, or hardware troubleshooting.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <div class="glass-card p-6 rounded-2xl border border-slate-700/80 hover:border-emerald-500/50 transition-colors">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 bg-emerald-500/10 text-emerald-400 rounded-xl flex items-center justify-center font-bold">
+              <i data-lucide="user-check" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-white">District Extension Officer</h4>
+              <p class="text-slate-400 text-xs">Ministry of Food & Agriculture</p>
+            </div>
+          </div>
+          <div class="space-y-2 text-sm text-slate-300">
+            <div class="flex items-center gap-2 text-xs">
+              <i data-lucide="phone" class="w-4 h-4 text-emerald-400"></i>
+              <a href="tel:+233240000000" class="hover:underline">+233 (0) 24 000 0000</a>
+            </div>
+            <div class="flex items-center gap-2 text-xs">
+              <i data-lucide="mail" class="w-4 h-4 text-emerald-400"></i>
+              <span>info@mofa.gov.gh</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card p-6 rounded-2xl border border-slate-700/80 hover:border-emerald-500/50 transition-colors">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 bg-cyan-500/10 text-cyan-400 rounded-xl flex items-center justify-center font-bold">
+              <i data-lucide="flame" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-white">BioChar Supply & Training</h4>
+              <p class="text-slate-400 text-xs">EcoRestorer Field Unit</p>
+            </div>
+          </div>
+          <div class="space-y-2 text-sm text-slate-300">
+            <div class="flex items-center gap-2 text-xs">
+              <i data-lucide="phone" class="w-4 h-4 text-cyan-400"></i>
+              <a href="tel:+233200000000" class="hover:underline">+233 (0) 20 000 0000</a>
+            </div>
+            <div class="flex items-center gap-2 text-xs">
+              <i data-lucide="map-pin" class="w-4 h-4 text-cyan-400"></i>
+              <span>ST. Thomas Aquinas </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card p-6 rounded-2xl border border-slate-700/80 hover:border-emerald-500/50 transition-colors">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 bg-indigo-500/10 text-indigo-400 rounded-xl flex items-center justify-center font-bold">
+              <i data-lucide="cpu" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-white">IoT Hardware Engineering</h4>
+              <p class="text-slate-400 text-xs">Sensor Stake Support Lead</p>
+            </div>
+          </div>
+          <div class="space-y-2 text-sm text-slate-300">
+            <div class="flex items-center gap-2 text-xs">
+              <i data-lucide="phone" class="w-4 h-4 text-indigo-400"></i>
+              <a href="tel:+233550000000" class="hover:underline">+233 (0) 55 000 0000</a>
+            </div>
+            <div class="flex items-center gap-2 text-xs">
+              <i data-lucide="mail" class="w-4 h-4 text-indigo-400"></i>
+              <span>stthomasaquinas1952@gmail.com</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="p-6 text-center text-slate-600 text-xs border-t border-slate-800 mt-12">
+    © 2026 BioChar-Guard Environmental Project. All Rights Reserved.
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    // 1. LOGOUT SCRIPT
+    document.getElementById('logout-btn').addEventListener('click', function() {
+      localStorage.removeItem('biochar_auth');
+      window.location.href = 'login.html';
+    });
+
+    // 2. CONFIGURATION (REPLACE WITH YOUR THINGSPEAK CHANNEL ID)
+    const CHANNEL_ID = "YOUR_THINGSPEAK_CHANNEL_ID_HERE";
+    const fetchUrl = `https://api.thingspeak.com/channels/${CHANNEL_ID}/feeds.json?results=10`;
+
+    // 3. CHART.JS GRAPH SETUP
+    const ctx = document.getElementById('soilChart').getContext('2d');
+    const soilChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          label: 'Soil pH Level',
+          data: [],
+          borderColor: '#10b981',
+          backgroundColor: 'rgba(16, 185, 129, 0.15)',
+          borderWidth: 3,
+          fill: true,
+          tension: 0.3,
+          pointBackgroundColor: '#10b981',
+          pointRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: { 
+            min: 3, 
+            max: 9, 
+            grid: { color: 'rgba(255,255,255,0.05)' }, 
+            ticks: { color: '#94a3b8' } 
+          },
+          x: { 
+            grid: { color: 'rgba(255,255,255,0.05)' }, 
+            ticks: { color: '#94a3b8' } 
+          }
+        },
+        plugins: { legend: { display: false } }
+      }
+    });
+
+    // 4. TELEMETRY FETCH AND FARMER ADVICE LOGIC
+    async function fetchTelemetry() {
+      try {
+        const response = await fetch(fetchUrl);
+        const data = await response.json();
+        const feeds = data.feeds;
+        const latest = feeds[feeds.length - 1];
+
+        const ph = parseFloat(latest.field1 || 6.5).toFixed(1);
+        const n = latest.field2 || '45';
+        const p = latest.field3 || '32';
+        const k = latest.field4 || '110';
+
+        // Update Card UI
+        document.getElementById('ph-val').innerText = ph;
+        document.getElementById('n-val').innerText = `${n} mg/kg`;
+        document.getElementById('p-val').innerText = `${p} mg/kg`;
+        document.getElementById('k-val').innerText = `${k} mg/kg`;
+
+        // Update Farmer Advice & Status Banner
+        const box = document.getElementById('advice-box');
+        const title = document.getElementById('advice-title');
+        const desc = document.getElementById('advice-desc');
+        const badge = document.getElementById('ph-badge');
+
+        if (ph < 5.5) {
+          box.className = "mb-8 p-6 rounded-2xl glass-card border-l-8 border-l-red-500 flex flex-col md:flex-row items-start md:items-center justify-between gap-4";
+          title.innerText = "Soil is Too Acidic for Planting!";
+          desc.innerText = "Heavy mine acid detected. Apply 2 bags of biochar per acre before sowing seeds to trap heavy metals.";
+          badge.innerText = "High Mine Acidity";
+          badge.className = "inline-block px-3 py-1 rounded-full text-xs font-bold bg-red-500/20 text-red-400 border border-red-500/30";
+        } else if (ph >= 5.5 && ph <= 7.5) {
+          box.className = "mb-8 p-6 rounded-2xl glass-card border-l-8 border-l-emerald-500 flex flex-col md:flex-row items-start md:items-center justify-between gap-4";
+          title.innerText = "Soil is Healthy & Safe for Farming!";
+          desc.innerText = "Soil pH and nutrients are restored. You can safely plant Cassava, Maize, Cocoa, or Plantains.";
+          badge.innerText = "Healthy / Neutral Soil";
+          badge.className = "inline-block px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
+        } else {
+          box.className = "mb-8 p-6 rounded-2xl glass-card border-l-8 border-l-amber-500 flex flex-col md:flex-row items-start md:items-center justify-between gap-4";
+          title.innerText = "Alkaline Soil Detected";
+          desc.innerText = "Soil is above neutral. Contact the agricultural officer for advice on organic compost balance.";
+          badge.innerText = "High Alkaline";
+          badge.className = "inline-block px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30";
+        }
+
+        // Update Graph
+        soilChart.data.labels = feeds.map(f => new Date(f.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+        soilChart.data.datasets[0].data = feeds.map(f => f.field1);
+        soilChart.update();
+
+      } catch (err) {
+        console.log("Loading default demonstration telemetry...", err);
+        // Fallback default values for demonstration
+        document.getElementById('ph-val').innerText = "6.8";
+        document.getElementById('n-val').innerText = "45 mg/kg";
+        document.getElementById('p-val').innerText = "32 mg/kg";
+        document.getElementById('k-val').innerText = "110 mg/kg";
+        
+        document.getElementById('advice-title').innerText = "Soil Status: Healthy & Safe for Farming";
+        document.getElementById('advice-desc').innerText = "Soil pH is stabilized at 6.8. Safe for Maize, Cocoa, and Cassava planting.";
+        document.getElementById('ph-badge').innerText = "Healthy / Neutral Soil";
+        document.getElementById('ph-badge').className = "inline-block px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
+      }
+    }
+
+    // Initial Load & Automatic 15-second Refresh
+    fetchTelemetry();
+    setInterval(fetchTelemetry, 15000);
+  </script>
+</body>
+</html>

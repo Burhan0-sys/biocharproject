@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BioChar-Guard | Restoring Lands Damaged by Illegal Mining</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    .glass-card {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans antialiased">
+
+  <!-- ==================== NAVIGATION BAR ==================== -->
+  <nav class="fixed top-0 left-0 right-0 z-50 glass-card border-b border-slate-800 px-6 py-4">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <div class="bg-emerald-500 p-2 rounded-lg text-slate-900 font-bold">
+          <i data-lucide="sprout" class="w-6 h-6"></i>
+        </div>
+        <span class="text-xl font-extrabold tracking-tight text-white">BioChar-<span class="text-emerald-400">Guard</span></span>
+      </div>
+      <div class="hidden md:flex gap-8 text-sm font-medium text-slate-300">
+        <a href="#crisis" class="hover:text-amber-400 transition-colors">The Crisis</a>
+        <a href="#solution" class="hover:text-emerald-400 transition-colors">Our Solution</a>
+        <a href="#how-it-works" class="hover:text-emerald-400 transition-colors">How It Works</a>
+      </div>
+      <!-- LINK TO LOGIN PAGE -->
+      <a href="login.html" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-5 py-2.5 rounded-full text-sm transition-all shadow-lg shadow-emerald-500/20 flex items-center gap-2">
+        <i data-lucide="lock" class="w-4 h-4"></i> Portal Login
+      </a>
+    </div>
+  </nav>
+
+  <!-- ==================== HERO SECTION ==================== -->
+  <section class="pt-36 pb-16 px-6 max-w-7xl mx-auto text-center">
+    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-amber-400 text-sm font-medium mb-6 border border-amber-500/30">
+      <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400"></i> Combatting Illegal Mining (Galamsey) Toxic Legacy
+    </div>
+    <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
+      Healing Poisoned Soil with <br class="hidden sm:inline" />
+      <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">Smart Biochar & IoT Telemetry</span>
+    </h1>
+    <p class="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
+      Illegal artisanal mining leaves vast tracks of farmland stripped of nutrients and contaminated with toxic heavy metals. BioChar-Guard turns local agricultural waste into a soil-healing agent while monitoring real-time recovery via IoT field stakes.
+    </p>
+    <div class="flex flex-col sm:flex-row justify-center gap-4">
+      <a href="#crisis" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-8 py-4 rounded-xl text-base transition-all flex items-center justify-center gap-2">
+        Understand the Threat <i data-lucide="arrow-down" class="w-5 h-5"></i>
+      </a>
+      <!-- LINK TO LOGIN PAGE -->
+      <a href="login.html" class="glass-card hover:bg-slate-800 text-white font-semibold px-8 py-4 rounded-xl text-base transition-all flex items-center justify-center gap-2">
+        Access Portal Login <i data-lucide="lock" class="w-4 h-4"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 1: THE ILLEGAL MINING CRISIS ==================== -->
+  <section id="crisis" class="py-20 bg-slate-950 border-y border-slate-800 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <div class="text-amber-400 text-xs font-bold uppercase tracking-widest mb-2">The Environmental Damage</div>
+        <h2 class="text-3xl md:text-5xl font-extrabold">The Devastating Impact of Galamsey</h2>
+        <p class="text-slate-400 max-w-2xl mx-auto mt-4">Unregulated illegal gold mining damages natural ecosystems, destroying topsoil and creating toxic hazards for local communities.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="glass-card p-8 rounded-2xl border-t-4 border-t-amber-500">
+          <div class="bg-amber-500/10 text-amber-400 w-12 h-12 rounded-xl flex items-center justify-center mb-6">
+            <i data-lucide="skull" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-3">Heavy Metal Toxicity</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            The widespread use of mercury leaves behind toxic residues that leach into ground soils, rendering farmland unusable and posing severe health risks to nearby settlements.
+          </p>
+        </div>
+
+        <div class="glass-card p-8 rounded-2xl border-t-4 border-t-red-500">
+          <div class="bg-red-500/10 text-red-400 w-12 h-12 rounded-xl flex items-center justify-center mb-6">
+            <i data-lucide="flame" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-3">Extreme Soil Acidity</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Excavation exposes deep minerals to air and water, creating Acid Mine Drainage. Soil pH drops sharply below 4.0, inhibiting plant life and crop growth.
+          </p>
+        </div>
+
+        <div class="glass-card p-8 rounded-2xl border-t-4 border-t-orange-500">
+          <div class="bg-orange-500/10 text-orange-400 w-12 h-12 rounded-xl flex items-center justify-center mb-6">
+            <i data-lucide="trees" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-3">Nutrient Depletion</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Heavy machinery removes fertile topsoil layers, stripping vital macro-nutrients—Nitrogen (N), Phosphorus (P), and Potassium (K)—necessary for agriculture.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 2: ABOUT THE SITE & SOLUTION ==================== -->
+  <section id="solution" class="py-20 px-6 max-w-7xl mx-auto">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <div class="text-emerald-400 text-xs font-bold uppercase tracking-widest mb-2">Our Reclamation Approach</div>
+        <h2 class="text-3xl md:text-4xl font-extrabold mb-6 leading-tight">
+          Combining Low-Cost Biochar with Autonomous Cloud Sensing
+        </h2>
+        <p class="text-slate-300 leading-relaxed mb-6">
+          <strong>BioChar-Guard</strong> is a multi-stage land reclamation platform. We convert agricultural residues—such as discarded coconut husks and cocoa pods—into highly porous, alkaline biochar through controlled pyrolysis.
+        </p>
+        <p class="text-slate-400 leading-relaxed mb-8">
+          When applied to degraded mine tailings, the biochar neutralizes acidity, traps heavy metal ions, and retains moisture. Field-deployed ESP32 sensor stakes then monitor soil health recovery in real time.
+        </p>
+
+        <div class="space-y-4">
+          <div class="flex items-start gap-4">
+            <div class="bg-emerald-500/10 text-emerald-400 p-2 rounded-lg mt-1"><i data-lucide="check-circle-2" class="w-5 h-5"></i></div>
+            <div>
+              <h4 class="font-bold text-white">Circular Waste Economy</h4>
+              <p class="text-slate-400 text-sm">Transforms local agricultural waste into high-value environmental reclamation materials.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="bg-emerald-500/10 text-emerald-400 p-2 rounded-lg mt-1"><i data-lucide="check-circle-2" class="w-5 h-5"></i></div>
+            <div>
+              <h4 class="font-bold text-white">Verifiable Data Cloud</h4>
+              <p class="text-slate-400 text-sm">Eliminates manual testing by streaming pH and nutrient logs directly to an online platform.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-card p-8 rounded-3xl border border-slate-700 relative overflow-hidden">
+        <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl"></div>
+        <h3 class="text-xl font-bold mb-6 text-emerald-400 flex items-center gap-2">
+          <i data-lucide="activity" class="w-5 h-5"></i> Target Soil Metrics
+        </h3>
+        <div class="space-y-6">
+          <div>
+            <div class="flex justify-between text-sm mb-2">
+              <span class="text-slate-300">Acidic Mine Soil (pH ~3.5)</span>
+              <span class="text-emerald-400 font-bold">Target: Neutral (pH 6.5 - 7.0)</span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-3 overflow-hidden">
+              <div class="bg-gradient-to-r from-red-500 via-amber-400 to-emerald-400 h-full w-[85%] rounded-full"></div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-4 pt-4 border-t border-slate-800 text-center">
+            <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800">
+              <div class="text-xs text-slate-400 mb-1">Nitrogen</div>
+              <div class="text-lg font-bold text-cyan-400">+35%</div>
+            </div>
+            <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800">
+              <div class="text-xs text-slate-400 mb-1">Phosphorus</div>
+              <div class="text-lg font-bold text-blue-400">+28%</div>
+            </div>
+            <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800">
+              <div class="text-xs text-slate-400 mb-1">Potassium</div>
+              <div class="text-lg font-bold text-indigo-400">+42%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 3: HOW IT WORKS ==================== -->
+  <section id="how-it-works" class="py-20 bg-slate-950/50 border-t border-slate-800 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <div class="text-emerald-400 text-xs font-bold uppercase tracking-widest mb-2">End-to-End Workflow</div>
+        <h2 class="text-3xl md:text-4xl font-extrabold mb-4">How BioChar-Guard Works</h2>
+        <p class="text-slate-400 max-w-2xl mx-auto">From waste collection to remote telemetry verification in four structured steps.</p>
+      </div>
+
+      <div class="grid md:grid-cols-4 gap-8">
+        <div class="glass-card p-6 rounded-2xl">
+          <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-xl flex items-center justify-center font-bold text-lg mb-4">01</div>
+          <h3 class="text-lg font-bold mb-2">Waste Collection</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Coconut shells and crop waste are collected from local farms, turning agricultural waste into resources.</p>
+        </div>
+
+        <div class="glass-card p-6 rounded-2xl">
+          <div class="w-12 h-12 bg-emerald-500/10 text-emerald-400 rounded-xl flex items-center justify-center font-bold text-lg mb-4">02</div>
+          <h3 class="text-lg font-bold mb-2">Pyrolysis & Soil Fix</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Biomass undergoes oxygen-limited pyrolysis into porous biochar, applied directly to neutralize toxic mine soil.</p>
+        </div>
+
+        <div class="glass-card p-6 rounded-2xl">
+          <div class="w-12 h-12 bg-cyan-500/10 text-cyan-400 rounded-xl flex items-center justify-center font-bold text-lg mb-4">03</div>
+          <h3 class="text-lg font-bold mb-2">IoT Field Stakes</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Solar-powered ESP32 stakes continuously record soil pH and NPK nutrient values on-site.</p>
+        </div>
+
+        <div class="glass-card p-6 rounded-2xl">
+          <div class="w-12 h-12 bg-indigo-500/10 text-indigo-400 rounded-xl flex items-center justify-center font-bold text-lg mb-4">04</div>
+          <h3 class="text-lg font-bold mb-2">Portal Monitoring</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Field data streams to the online dashboard, giving researchers real-time recovery metrics.</p>
+        </div>
+      </div>
+
+      <!-- CTA CARD LINKING TO LOGIN -->
+      <div class="mt-16 glass-card p-10 rounded-3xl text-center max-w-3xl mx-auto border border-emerald-500/30">
+        <h3 class="text-2xl font-bold mb-3">Ready to view field telemetry?</h3>
+        <p class="text-slate-400 text-sm mb-6">Log in to access live data streams from active field stakes.</p>
+        <a href="login.html" class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-8 py-3.5 rounded-xl transition-all shadow-lg shadow-emerald-500/20">
+          Log In to Dashboard <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="py-8 px-6 text-center text-slate-500 text-sm border-t border-slate-800">
+    <p>© 2026 BioChar-Guard Project. Designed for Environmental Remediation in Ghana.</p>
+  </footer>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>
